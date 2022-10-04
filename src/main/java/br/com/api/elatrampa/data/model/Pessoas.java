@@ -8,9 +8,13 @@ import javax.persistence.*;
 
 import br.com.api.elatrampa.data.model.Candidaturas;
 
+import br.com.api.elatrampa.data.model.Pessoas;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="Pessoa")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pessoas implements Serializable{
 	
 	private static final long serialVersionUID =1L;
@@ -21,34 +25,28 @@ public class Pessoas implements Serializable{
 	
 	@Column(name = "nomePessoa", nullable=false, length=180)
 	private String nomePessoa;
-	
-	@Column(name = "profissaoPessoa", nullable=false, length=180)
-	private String profissaoPessoa;
-	
+
 	@Column(name = "localizacaoPessoa", nullable=false, length=1)
 	private String localizacaoPessoa;
 	
 	@Column(name = "nivelExperienciaPessoa", nullable=false, length=180)	
 	private String nivelExperienciaPessoa;
 
-	@OneToMany(mappedBy = "pessoa")
-	Set<Candidaturas> candidatura;
+	@Embedded
+	private Profissao profissao;
 
-	
+
 	public Pessoas() {
-		
+
 	}
-	
-	public Pessoas(Long pessoaId, String nomePessoa, String profissaoPessoa, String localizacaoPessoa,
-			String nivelExperienciaPessoa) {
+
+	public Pessoas(Long pessoaId, String nomePessoa, String localizacaoPessoa, String nivelExperienciaPessoa, Profissao profissao) {
 		this.pessoaId = pessoaId;
 		this.nomePessoa = nomePessoa;
-		this.profissaoPessoa = profissaoPessoa;
 		this.localizacaoPessoa = localizacaoPessoa;
 		this.nivelExperienciaPessoa = nivelExperienciaPessoa;
+		this.profissao = profissao;
 	}
-
-
 
 	public Long getPessoaId() {
 		return pessoaId;
@@ -64,14 +62,6 @@ public class Pessoas implements Serializable{
 
 	public void setNomePessoa(String nomePessoa) {
 		this.nomePessoa = nomePessoa;
-	}
-
-	public String getProfissaoPessoa() {
-		return profissaoPessoa;
-	}
-
-	public void setProfissaoPessoa(String profissaoPessoa) {
-		this.profissaoPessoa = profissaoPessoa;
 	}
 
 	public String getLocalizacaoPessoa() {
@@ -90,26 +80,26 @@ public class Pessoas implements Serializable{
 		this.nivelExperienciaPessoa = nivelExperienciaPessoa;
 	}
 
+	public Profissao getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(Profissao profissao) {
+		this.profissao = profissao;
+	}
+
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Pessoas pessoas = (Pessoas) o;
+		return Objects.equals(pessoaId, pessoas.pessoaId);
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(localizacaoPessoa, nivelExperienciaPessoa, nomePessoa, pessoaId, profissaoPessoa);
+		return Objects.hash(pessoaId);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pessoas other = (Pessoas) obj;
-		return Objects.equals(localizacaoPessoa, other.localizacaoPessoa)
-				&& Objects.equals(nivelExperienciaPessoa, other.nivelExperienciaPessoa)
-				&& Objects.equals(nomePessoa, other.nomePessoa) && Objects.equals(pessoaId, other.pessoaId)
-				&& Objects.equals(profissaoPessoa, other.profissaoPessoa);
-	}
-	
-	
-
 }

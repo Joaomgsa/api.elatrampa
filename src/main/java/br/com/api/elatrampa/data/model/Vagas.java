@@ -1,8 +1,10 @@
 package br.com.api.elatrampa.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
+
 
 import javax.persistence.*;
 
@@ -16,10 +18,7 @@ public class Vagas implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
-	@Column(name = "tituloVaga", nullable=false, length=250)
-	private String tituloVaga;
-	
+
 	@Column(name = "descricaoVaga", nullable=false, length=250)
 	private String descricaoVaga;
 	
@@ -29,19 +28,26 @@ public class Vagas implements Serializable{
 	@Column(name = "experienciaVaga", nullable=false)
 	private Integer experienciaVaga;
 
-	@OneToMany(mappedBy = "vaga")
-	Set<Candidaturas> candidatura;
-	
+	@Embedded
+	private Profissao profissao;
+
+
+	@ManyToOne
+	@JsonIgnore
+	private Candidaturas candidatura;
+
+
 	public Vagas() {
 		
 	}
 
-	public Vagas(Long id, String tituloVaga, String descricaoVaga, String localizacaoVaga, Integer experienciaVaga) {
+	public Vagas(Long id, String descricaoVaga, String localizacaoVaga, Integer experienciaVaga, Profissao profissao, Candidaturas candidatura) {
 		this.id = id;
-		this.tituloVaga = tituloVaga;
 		this.descricaoVaga = descricaoVaga;
 		this.localizacaoVaga = localizacaoVaga;
 		this.experienciaVaga = experienciaVaga;
+		this.profissao = profissao;
+		this.candidatura = candidatura;
 	}
 
 	public Long getId() {
@@ -50,14 +56,6 @@ public class Vagas implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTituloVaga() {
-		return tituloVaga;
-	}
-
-	public void setTituloVaga(String tituloVaga) {
-		this.tituloVaga = tituloVaga;
 	}
 
 	public String getDescricaoVaga() {
@@ -84,25 +82,32 @@ public class Vagas implements Serializable{
 		this.experienciaVaga = experienciaVaga;
 	}
 
+	public Profissao getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(Profissao profissao) {
+		this.profissao = profissao;
+	}
+
+	public Candidaturas getCandidatura() {
+		return candidatura;
+	}
+
+	public void setCandidatura(Candidaturas candidatura) {
+		this.candidatura = candidatura;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Vagas vagas = (Vagas) o;
+		return Objects.equals(id, vagas.id);
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vagas other = (Vagas) obj;
-		return Objects.equals(id, other.id);
-	}
-	
-	
-	
-	
-
 }
