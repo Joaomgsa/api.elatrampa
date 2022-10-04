@@ -70,10 +70,6 @@ public class CandidaturasServiceImpl implements CandidaturasServices {
         );
     }
 
-    @Override
-    public Candidaturas desativarCandidatura(Long id, boolean status) {
-        return null;
-    }
 
 
 }

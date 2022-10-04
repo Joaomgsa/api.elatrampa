@@ -7,5 +7,4 @@ import br.com.api.elatrampa.resource.dto.VagaDTO;
 public interface CandidaturasServices {
     Vagas incluirVaga(VagaDTO vagaDTO);
     Candidaturas verCandidatura(Long id);
-    Candidaturas desativarCandidatura(Long id, boolean status);
 }

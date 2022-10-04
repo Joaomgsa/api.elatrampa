@@ -28,10 +28,7 @@ public class CandidaturasResource {
         return service.verCandidatura(id);
     }
 
-    @PatchMapping("/desativarCandidatura/{candidaturaId}")
-    public Candidaturas desativarCandidatura(@PatchMapping("candiaturaId")){
-        return service.desativarCandidatura(candidaturaId, false);
-    }
+
 
 
 
