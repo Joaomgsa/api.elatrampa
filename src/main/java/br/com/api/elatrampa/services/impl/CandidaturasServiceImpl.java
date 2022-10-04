@@ -9,10 +9,8 @@ import br.com.api.elatrampa.repository.VagasRepository;
 import br.com.api.elatrampa.resource.dto.VagaDTO;
 import br.com.api.elatrampa.services.CandidaturasServices;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
