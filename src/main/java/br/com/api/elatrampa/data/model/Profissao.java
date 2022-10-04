@@ -24,4 +24,5 @@ public class Profissao {
     private Long profissaoId;
     private String tituloProfissao;
 
+
 }

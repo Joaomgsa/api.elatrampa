@@ -5,6 +5,7 @@ import br.com.api.elatrampa.data.model.Profissao;
 import br.com.api.elatrampa.data.model.Vagas;
 import br.com.api.elatrampa.repository.CandidaturasRepository;
 import br.com.api.elatrampa.repository.PessoasRepository;
+import br.com.api.elatrampa.repository.ProfissaoRepository;
 import br.com.api.elatrampa.repository.VagasRepository;
 import br.com.api.elatrampa.resource.dto.VagaDTO;
 import br.com.api.elatrampa.services.CandidaturasServices;
@@ -22,9 +23,11 @@ public class CandidaturasServiceImpl implements CandidaturasServices {
     private final PessoasRepository pessoasRepository;
     private final CandidaturasRepository candidaturasRepository;
 
+    private final ProfissaoRepository profissaoRepository;
+
     @Override
     public Vagas incluirVaga(VagaDTO vagaDTO) {
-        Candidaturas candidatura = verCandidatura(VagaDTO.getCandidaturaId());
+        Candidaturas candidatura = verCandidatura(vagaDTO.getCandidaturaId());
 
         if(candidatura.isInativa()){
             throw new RuntimeException("Candidatura inativa");
@@ -35,7 +38,7 @@ public class CandidaturasServiceImpl implements CandidaturasServices {
                 .experienciaVaga(vagaDTO.getExperienciaVaga())
                 .localizacaoVaga(vagaDTO.getLocalizacaoVaga())
                 .candidatura(candidatura)
-                .vaga(vagasRepository.findById(vagaDTO.getProfissaoId()).orElseThrow(
+                .profissao(profissaoRepository.findById(vagaDTO.getProfissaoId()).orElseThrow(
                         () ->{
                             throw new RuntimeException("Essa Vaga não Existe");
                         }
@@ -54,7 +57,6 @@ public class CandidaturasServiceImpl implements CandidaturasServices {
                 throw new RuntimeException("Não é possível se candidatar em profissoes diferentes");
             }
         }
-
         candidaturasRepository.save(candidatura);
         return novaVaga;
     }

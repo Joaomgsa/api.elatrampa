@@ -30,9 +30,8 @@ public class Vagas implements Serializable{
 	private String localizacaoVaga;
 	private Integer experienciaVaga;
 
-	@Embedded
+	@OneToOne
 	private Profissao profissao;
-
 
 	@ManyToOne
 	@JsonIgnore
