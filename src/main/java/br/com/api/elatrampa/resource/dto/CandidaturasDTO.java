@@ -6,16 +6,23 @@ import javax.persistence.Embeddable;
 public class CandidaturasDTO {
     private Long vagaId;
     private Long pessoaId;
-    private Long candidaturaId;
-    private boolean status;
+    private Long id;
+    private boolean inativo = false;
 
     public CandidaturasDTO() {
     }
 
-    public CandidaturasDTO(Long vagaId, Long pessoaId, Long candidaturaId, boolean status) {
+    public CandidaturasDTO(Long vagaId, Long pessoaId, Long id, boolean inativo) {
         this.vagaId = vagaId;
         this.pessoaId = pessoaId;
-        this.candidaturaId = candidaturaId;
-        this.status = status;
+        this.id = id;
+        this.inativo = inativo;
+    }
+
+    public static class Builder{
+        private Long vagaId;
+        private Long pessoaId;
+        private Long id;
+        private boolean status;
     }
 }
